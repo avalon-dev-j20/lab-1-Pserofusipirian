@@ -3,15 +3,15 @@ package ru.avalon.java.j20.labs.models;
 /**
  * Модель представления о точке.
  */
-public class Point {
+public class Point<P extends Number> {
     /**
      * Абсцисса точки.
      */
-    private final int x;
+    private final P x;
     /**
      * Ордината точки.
      */
-    private final int y;
+    private final P y;
 
     /**
      * Основной конструктор класса.
@@ -19,7 +19,7 @@ public class Point {
      * @param x абсцисса точки
      * @param y ордината точки
      */
-    public Point(int x, int y) {
+    public Point(P x, P y) {
         this.x = x;
         this.y = y;
     }
@@ -29,7 +29,7 @@ public class Point {
      *
      * @return x-координата точки.
      */
-    public int getX() {
+    public P getX() {
         return x;
     }
 
@@ -38,7 +38,7 @@ public class Point {
      *
      * @return y-координата точки.
      */
-    public int getY() {
+    public P getY() {
         return y;
     }
 
@@ -50,8 +50,13 @@ public class Point {
      * @return дистанция между точками
      */
     public double distanceTo(Point point) {
-        float dx = x - point.x;
-        float dy = y - point.y;
+        //Почему x.doubleValue() возвращает значение 1.2300000190734863, при том, что x = 1.23,
+        //Как с этим бороться и зачем вообще этот метод doubleValue() нужен c такими особенностями?
+        //Приходится через строку конвертировать, но даже при этом 2.32 - 3.0 с типами Double возвращает -0.6800000000000002        
+        double dx = Double.valueOf(x.toString()) - Double.valueOf(point.x.toString());
+        double dy = Double.valueOf(y.toString()) - Double.valueOf(point.y.toString());
+        //float dx = x.doubleValue() - point.x.doubleValue();
+        //float dy = y.doubleValue() - point.y.doubleValue();
         return Math.sqrt(dx * dx + dy * dy);
     }
 }

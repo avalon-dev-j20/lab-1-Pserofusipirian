@@ -18,12 +18,46 @@ import java.util.Iterator;
  */
 public class Fibonacci implements Iterable<Integer> {
 
+    //Можно было бы сделать все переменные статическими и указать их здесь для обращения к ним
+    //из класса FibonacciIterator, но с многопоточностью будут проблемы. И сброс по дефолту придется делать.
+    
+    //Переменная, содержащая количество чисел последовательности Фибоначчи.
+    private int fiboMax;
+        
+    public Fibonacci(int fiboMax){
+        this.fiboMax = fiboMax;
+    }
+    
+    /**
+     * Возвращает количество чисел последовательности Фибоначчи.
+     */
+    public int getFiboNum(){
+        return fiboMax;
+    }
     /**
      * Итератор, выполняющий обход последовательности
      * чисел Фибоначчи.
      */
     private static class FibonacciIterator implements Iterator<Integer> {
 
+        //Само пусть оборачивает в Integer, где нужно. В арифметических вычислениях все равно
+        //все типы распаковываются до примитивных. Незачем их лишний раз преобразовывать.            
+        
+        //Переменная, содержащая значение N-2 числа последовательности Фибоначчи.
+        private int fiboA = 0;
+        //Переменная, содержащая значение N-1 числа последовательности Фибоначчи.       
+        private int fiboB = 1;
+         //Переменная, содержащая порядковый номер (N) текущего числа последовательности Фибоначчи.       
+        private int fiboCurrent = 0;    
+        //Переменная, содержащая количество чисел последовательности Фибоначчи.    
+        private int fiboMax;
+        
+        //Так как доступа к нестатическим переменным класса Fibonacci нет, приходится
+        //создавать конструктор с параметрами для присваивания значений локальным переменным
+        private FibonacciIterator(int fiboMax){
+            this.fiboMax = fiboMax;
+        }
+        
         /**
          * Определяет, есть ли следующее значение
          * последовательности чисел Фибоначчи.
@@ -34,7 +68,7 @@ public class Fibonacci implements Iterable<Integer> {
          */
         @Override
         public boolean hasNext() {
-            throw new UnsupportedOperationException("Not implemented yet!");
+            return fiboCurrent < fiboMax;
         }
 
         /**
@@ -45,7 +79,13 @@ public class Fibonacci implements Iterable<Integer> {
          */
         @Override
         public Integer next() {
-            throw new UnsupportedOperationException("Not implemented yet!");
+                        
+            int fiboC = fiboA + (fiboB > fiboCurrent ? 0 : fiboB);
+            fiboA = fiboB;
+            fiboB = fiboC;
+            fiboCurrent++;
+            
+            return fiboC;
         }
     }
 
@@ -57,6 +97,6 @@ public class Fibonacci implements Iterable<Integer> {
      */
     @Override
     public Iterator<Integer> iterator() {
-        return new FibonacciIterator();
+        return new FibonacciIterator(fiboMax);
     }
 }
