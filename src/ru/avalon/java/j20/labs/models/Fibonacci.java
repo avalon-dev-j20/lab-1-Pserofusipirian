@@ -81,7 +81,7 @@ public class Fibonacci implements Iterable<Integer> {
          */
         @Override
         public Integer next() {
-            if (fiboCurrent < fiboMax){
+            if (fiboCurrent >= fiboMax){
                 throw new NoSuchElementException();
             }
             int fiboC = fiboA + (fiboB > fiboCurrent ? 0 : fiboB);
