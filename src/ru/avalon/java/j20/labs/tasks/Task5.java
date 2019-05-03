@@ -3,6 +3,8 @@ package ru.avalon.java.j20.labs.tasks;
 import ru.avalon.java.j20.labs.Task;
 import ru.avalon.java.j20.labs.core.RandomArrayFactory;
 
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -24,11 +26,18 @@ public class Task5 implements Task {
     @Override
     public void run() {
         final int[] array = arrayFactory.getInstance(20);
+        
+        //Лучше было бы изменить метод getInstance, чтоб он возвращал Integer[], а не int[],
+        //но не ясно можно ли это делать согласно заданию. Поэтому копируется в новый массив Integer[]
+        Integer[] arrayNew = Arrays.stream(array).boxed().toArray(Integer[]::new);
+        
+        List<Integer> list = Arrays.asList(arrayNew);
 
-        List<Integer> list = null;
+        Set<Integer> set = new LinkedHashSet<>(list);
 
-        Set<Integer> set = null;
-
+        //Ненужное в мусор
+        arrayNew = null;
+        
         /**
          * TODO(Студент): Выполните задание №5
          *
