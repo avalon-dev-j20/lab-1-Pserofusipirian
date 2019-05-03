@@ -1,6 +1,7 @@
 package ru.avalon.java.j20.labs.models;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Модель получения последовательности чисел Фибоначчи.
@@ -80,11 +81,14 @@ public class Fibonacci implements Iterable<Integer> {
          */
         @Override
         public Integer next() {
+            if (fiboCurrent < fiboMax){
+                throw new NoSuchElementException();
+            }
             int fiboC = fiboA + (fiboB > fiboCurrent ? 0 : fiboB);
             fiboA = fiboB;
             fiboB = fiboC;
             fiboCurrent++;            
-            return fiboC;
+            return fiboC;           
         }
     }
 

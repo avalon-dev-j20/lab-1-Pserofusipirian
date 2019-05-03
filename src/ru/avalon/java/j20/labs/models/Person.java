@@ -51,7 +51,8 @@ public class Person {
             //Теплое с мягким
             return false;
         }
-        return this.hashCode() == obj.hashCode();
+        Person eqPerson = (Person)obj;
+        return getName().equals(eqPerson.getName()) && getSurname().equals(eqPerson.getSurname());
     }
 
     //Этот метод переопределился автоматически с помощью подсказки при заполнении метода equals.
