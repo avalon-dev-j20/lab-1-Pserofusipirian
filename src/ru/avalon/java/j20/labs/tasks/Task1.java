@@ -1,5 +1,6 @@
 package ru.avalon.java.j20.labs.tasks;
 
+import java.util.Arrays;
 import ru.avalon.java.j20.labs.Task;
 import ru.avalon.java.j20.labs.core.RandomArrayFactory;
 import ru.avalon.java.j20.labs.models.Numbers;
@@ -25,9 +26,19 @@ public class Task1 implements Task {
     @Override
     public void run() {
         int[] array = arrayFactory.getInstance(20);
-        int min = Numbers.min(array);
-        int max = Numbers.max(array);
-        double avg = Numbers.avg(array);
+        
+        //Копирование массива примитивного типа в массив класса-обертки для использования
+        //методов классов Number и интерфейса Comparable.
+        //Лучше было бы изменить метод getInstance, чтоб он возвращал Integer[], а не int[],
+        //но не ясно можно ли менять пакет ru.avalon.java.j20.labs.core согласно заданию.        
+        Integer[] arrayNew = Arrays.stream(array).boxed().toArray(Integer[]::new);
+        
+        //Ненужное в мусор
+        array = null;
+        
+        double min = Numbers.min(arrayNew).doubleValue();
+        double max = Numbers.max(arrayNew).doubleValue();
+        double avg = Numbers.avg(arrayNew);
         /*
          * TODO(Студент): Выполните задание №1
          *
